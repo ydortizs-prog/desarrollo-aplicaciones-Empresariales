@@ -1,0 +1,24 @@
+{% extends "quiz/base.html" %}
+
+{% block title %}Lista de Exámenes{% endblock %}
+
+{% block content %}
+<header class="page-header">
+    <h1>Lista de Exámenes</h1>
+    <p>Selecciona un examen para ver sus preguntas.</p>
+</header>
+<div class="exam-grid">
+    {% for exam in exams %}
+    <article class="exam-card">
+        <h2 class="exam-card-title">{{ exam.title }}</h2>
+        <p class="exam-card-meta">{{ exam.questions.count }} pregunta{{ exam.questions.count|pluralize:"s" }}</p>
+        <div class="btn-group">
+            <a class="btn" href="{% url 'exam_detail' exam.id %}">Ver examen</a>
+            <a class="btn btn-success" href="{% url 'exam_take' exam.id %}">Rendir examen</a>
+        </div>
+    </article>
+    {% empty %}
+    <div class="empty-state">No hay exámenes aún.</div>
+    {% endfor %}
+</div>
+{% endblock %}
