@@ -1,0 +1,51 @@
+{% extends "quiz/base.html" %}
+
+{% block title %}Resultado: {{ exam.title }}{% endblock %}
+
+{% block content %}
+<header class="page-header">
+    <h1>Resultado: {{ exam.title }}</h1>
+    <p>Calificación: {{ score_obtained }} de {{ score_total }} puntos ({{ percentage }}%).</p>
+</header>
+<div class="result-summary">
+    <div class="result-card result-correct">
+        <span class="result-number">{{ correct_count }}</span>
+        <span class="result-label">Correctas</span>
+    </div>
+    <div class="result-card result-incorrect">
+        <span class="result-number">{{ incorrect_count }}</span>
+        <span class="result-label">Incorrectas</span>
+    </div>
+    <div class="result-card result-score">
+        <span class="result-number">{{ score_obtained }}/{{ score_total }}</span>
+        <span class="result-label">Puntaje ({{ percentage }}%)</span>
+    </div>
+</div>
+<div class="result-review">
+    {% for item in results %}
+    <article class="take-question">
+        <p class="take-statement"><strong>Pregunta {{ forloop.counter }}:</strong> {{ item.question.statement }}</p>
+        <p>
+            Tu respuesta:
+            {% if item.selected %}
+                <strong>{{ item.selected.text }}</strong>
+            {% else %}
+                <strong>Sin responder</strong>
+            {% endif %}
+            {% if item.is_correct %}
+                <span class="badge badge-correct">Correcta</span>
+            {% else %}
+                <span class="badge badge-incorrect">Incorrecta</span>
+            {% endif %}
+        </p>
+        {% if not item.is_correct and item.correct_choice %}
+        <p class="take-correct-answer">Respuesta correcta: <strong>{{ item.correct_choice.text }}</strong></p>
+        {% endif %}
+    </article>
+    {% endfor %}
+</div>
+<div class="btn-group btn-group-centered">
+    <a class="btn" href="{% url 'exam_list' %}">Volver a la lista</a>
+    <a class="btn btn-success" href="{% url 'exam_take' exam.id %}">Rendir de nuevo</a>
+</div>
+{% endblock %}

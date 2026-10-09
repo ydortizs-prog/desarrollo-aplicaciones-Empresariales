@@ -1,0 +1,15 @@
+{% extends "news/base.html" %}
+
+{% block title %}{{ category.name }} — Portal de Noticias{% endblock %}
+
+{% block content %}
+<h1 class="portal-heading">Sección: {{ category.name }}</h1>
+{% if category.description %}<p>{{ category.description }}</p>{% endif %}
+<div class="news-grid">
+    {% for article in articles %}
+        {% include "news/_article_card.html" with article=article %}
+    {% empty %}
+        <p class="portal-empty">No hay noticias en esta sección.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "news/base.html" %}
+
+{% block title %}{{ article.title }} — Portal de Noticias{% endblock %}
+
+{% block content %}
+<article class="news-detail">
+    <h1>{{ article.title }}</h1>
+    <p class="news-card-meta">
+        {% if article.author %}Por {{ article.author }} · {% endif %}{{ article.published_date|date:"d M Y H:i" }}
+    </p>
+    <p class="news-card-tags">
+        Categorías:
+        {% for category in article.categories.all %}
+        <a href="{% url 'news:category-list' category.pk %}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
+        {% empty %}
+        Sin categoría.
+        {% endfor %}
+    </p>
+    {% if article.featured_image %}
+    <img class="news-detail-image" src="{{ article.featured_image.url }}" alt="{{ article.title }}">
+    {% endif %}
+    <div class="news-detail-body">
+        {{ article.body }}
+    </div>
+    <p><a class="news-btn" href="{% url 'news:frontpage' %}">Volver a la portada</a></p>
+</article>
+{% endblock %}

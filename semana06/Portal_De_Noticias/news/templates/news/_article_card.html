@@ -1,0 +1,21 @@
+{# Reusable news card used by frontpage and category list. Expects "article". #}
+<article class="news-card">
+    {% if article.featured_image %}
+    <img class="news-card-image" src="{{ article.featured_image.url }}" alt="{{ article.title }}">
+    {% endif %}
+    <div class="news-card-body">
+        <h2 class="news-card-title">
+            <a href="{% url 'news:article-detail' article.pk %}">{{ article.title }}</a>
+        </h2>
+        <p class="news-card-meta">
+            {% if article.author %}Por {{ article.author }} · {% endif %}{{ article.published_date|date:"d M Y" }}
+        </p>
+        <p class="news-card-tags">
+            {% for category in article.categories.all %}
+            <a href="{% url 'news:category-list' category.pk %}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+        <p class="news-card-summary">{{ article.summary|truncatewords:30 }}</p>
+        <a class="news-btn" href="{% url 'news:article-detail' article.pk %}">Leer más</a>
+    </div>
+</article>

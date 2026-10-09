@@ -1,0 +1,18 @@
+<h1>Recommendations for {{ movie.title }}</h1>
+<p>Genres:
+  {% for genre in movie.genres.all %}
+    {{ genre.name }}{% if not forloop.last %}, {% endif %}
+  {% empty %}
+    No genres assigned.
+  {% endfor %}
+</p>
+<ul>
+  {% for rec in recommendations %}
+    <li>
+      {{ rec.title }} ({{ rec.release_year }}) -
+      Avg: {{ rec.avg_score|default:"-" }}/5
+    </li>
+  {% empty %}
+    <li>No recommendations yet.</li>
+  {% endfor %}
+</ul>
