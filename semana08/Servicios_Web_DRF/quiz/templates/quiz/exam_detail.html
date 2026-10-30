@@ -1,0 +1,39 @@
+{% extends "quiz/base.html" %}
+
+{% block title %}Detalle: {{ exam.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ exam.title }}</h1>
+<p>{{ exam.description }}</p>
+
+<h2>Preguntas ({% for q in questions %}{{ forloop.counter }}{% endfor %})</h2>
+<ul>
+    {% for question in questions %}
+    <li>
+        <strong>Pregunta {{ forloop.counter }}:</strong> {{ question.statement }}
+        <ul>
+            {% for choice in question.choices.all %}
+            <li>
+                {{ choice.text }} {% if choice.is_correct %}★correcta{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% empty %}
+    <li>No hay preguntas aún.</li>
+    {% endfor %}
+</ul>
+
+<h3>Crear nueva pregunta</h3>
+<form method="post" action="{% url 'question_create' exam.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <h4>Opciones (4 disponibles)</h4>
+    {% for form in formset.forms %}
+    <div>
+        {{ form.as_p }}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn">Guardar pregunta</button>
+</form>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "quiz/base.html" %}
+
+{% block title %}Rendir: {{ exam.title }}{% endblock %}
+
+{% block content %}
+<header class="page-header">
+    <h1>{{ exam.title }}</h1>
+    <p>Responde cada pregunta y presiona "Finalizar examen".</p>
+</header>
+<form class="take-form" method="post" action="{% url 'exam_take' exam.id %}">
+    {% csrf_token %}
+    {% for question in questions %}
+    <fieldset class="take-question">
+        <legend>Pregunta {{ forloop.counter }} <span class="take-score">({{ question.score }} pts)</span></legend>
+        <p class="take-statement">{{ question.statement }}</p>
+        <div class="take-options">
+            {% for choice in question.choices.all %}
+            <label class="take-option" for="q{{ question.id }}c{{ choice.id }}">
+                <input type="radio" name="question_{{ question.id }}" value="{{ choice.id }}" id="q{{ question.id }}c{{ choice.id }}">
+                <span>{{ choice.text }}</span>
+            </label>
+            {% empty %}
+            <p class="take-no-options">Esta pregunta aún no tiene opciones.</p>
+            {% endfor %}
+        </div>
+    </fieldset>
+    {% empty %}
+    <div class="empty-state">Este examen aún no tiene preguntas.</div>
+    {% endfor %}
+    {% if questions %}
+    <button type="submit" class="btn btn-success btn-submit">Finalizar examen</button>
+    {% endif %}
+</form>
+{% endblock %}

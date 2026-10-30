@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Quiz Django{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'quiz/css/styles.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="{% url 'exam_list' %}">Inicio</a>
+            <a href="{% url 'admin:index' %}">Admin</a>
+        </div>
+    </nav>
+    <div class="container content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
