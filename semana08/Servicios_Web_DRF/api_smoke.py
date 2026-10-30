@@ -38,10 +38,11 @@ def show(label, status, text, limit=220):
 # 1. List
 status, text = call('GET', '/exams/')
 show('GET /exams/', status, text)
+exam_id = json.loads(text)['results'][0]['id']
 
 # 2. Detail
-status, text = call('GET', '/exams/5/')
-show('GET /exams/5/', status, text)
+status, text = call('GET', f'/exams/{exam_id}/')
+show(f'GET /exams/{exam_id}/', status, text)
 
 # 3. Create exam
 status, text = call('POST', '/exams/', {'title': 'Examen creado por API', 'description': 'Creado con JSON.'})
@@ -56,7 +57,7 @@ show(f'PATCH /exams/{created_id}/', status, text)
 question_payload = {
     'statement': '¿Qué método HTTP elimina un recurso?',
     'score': 10,
-    'exam': 5,
+    'exam': exam_id,
     'choices': [
         {'text': 'DELETE', 'is_correct': True},
         {'text': 'GET', 'is_correct': False},
@@ -76,8 +77,8 @@ if created_id:
     print(f'DELETE /exams/{created_id}/: {status}')
 
 # Filters and pagination
-status, text = call('GET', '/questions/?exam=5')
-show('GET /questions/?exam=5', status, text)
+status, text = call('GET', f'/questions/?exam={exam_id}')
+show(f'GET /questions/?exam={exam_id}', status, text)
 status, text = call('GET', '/questions/?search=serializador')
 show('GET /questions/?search=serializador', status, text)
 status, text = call('GET', '/questions/?page=1')
@@ -95,7 +96,7 @@ show('POST /exams/ (missing title)', status, text)
 status, text = call('POST', '/questions/', {
     'statement': 'Pregunta con score inválido',
     'score': 'diez',
-    'exam': 5,
+    'exam': exam_id,
     'choices': [{'text': 'A', 'is_correct': True}, {'text': 'B', 'is_correct': False}],
 })
 show('POST /questions/ (score wrong type)', status, text)
@@ -103,7 +104,7 @@ show('POST /questions/ (score wrong type)', status, text)
 status, text = call('POST', '/questions/', {
     'statement': 'Pregunta con dos respuestas correctas',
     'score': 10,
-    'exam': 5,
+    'exam': exam_id,
     'choices': [
         {'text': 'A', 'is_correct': True},
         {'text': 'B', 'is_correct': True},

@@ -126,15 +126,18 @@ anidadas, por lo que se usa la pestaña **Raw data** (JSON).
 | Operación | Dirección | Código |
 |---|---|---|
 | Listar exámenes | `GET /api/exams/` | `200` |
-| Ver detalle de examen | `GET /api/exams/5/` | `200` |
+| Ver detalle de examen | `GET /api/exams/{id}/` | `200` |
 | Crear examen | `POST /api/exams/` | `201` |
-| Ver detalle del examen creado | `GET /api/exams/7/` | `200` |
-| Modificar parcialmente | `PATCH /api/exams/7/` | `200` |
+| Ver detalle del examen creado | `GET /api/exams/{id}/` | `200` |
+| Modificar parcialmente | `PATCH /api/exams/{id}/` | `200` |
 | Crear pregunta con opciones | `POST /api/questions/` | `201` |
-| Ver detalle de pregunta | `GET /api/questions/10/` | `200` |
-| Modificar parcialmente pregunta | `PATCH /api/questions/10/` | `200` |
-| Eliminar pregunta | `DELETE /api/questions/10/` | `204` |
-| Eliminar examen | `DELETE /api/exams/7/` | `204` |
+| Ver detalle de pregunta | `GET /api/questions/{id}/` | `200` |
+| Modificar parcialmente pregunta | `PATCH /api/questions/{id}/` | `200` |
+| Eliminar pregunta | `DELETE /api/questions/{id}/` | `204` |
+| Eliminar examen | `DELETE /api/exams/{id}/` | `204` |
+
+Los identificadores concretos cambian en cada ejecución; lo relevante es el código
+de estado, que se mantiene.
 
 ## 6. Recorrido desde un cliente HTTP externo
 
@@ -143,12 +146,12 @@ Script `api_smoke.py` (autenticación Basic con `admin:admin123`, cuerpo JSON):
 | Operación | Dirección | Código observado |
 |---|---|---|
 | Listar | `GET /api/exams/` | `200` |
-| Detalle | `GET /api/exams/5/` | `200` |
+| Detalle | `GET /api/exams/{id}/` | `200` |
 | Crear | `POST /api/exams/` | `201` |
-| Modificar parcialmente | `PATCH /api/exams/6/` | `200` |
+| Modificar parcialmente | `PATCH /api/exams/{id}/` | `200` |
 | Crear pregunta anidada | `POST /api/questions/` | `201` |
-| Eliminar pregunta | `DELETE /api/questions/9/` | `204` |
-| Eliminar examen | `DELETE /api/exams/6/` | `204` |
+| Eliminar pregunta | `DELETE /api/questions/{id}/` | `204` |
+| Eliminar examen | `DELETE /api/exams/{id}/` | `204` |
 
 Los códigos coinciden con los de la API navegable.
 

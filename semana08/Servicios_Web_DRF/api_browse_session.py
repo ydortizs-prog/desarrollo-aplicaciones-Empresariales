@@ -50,7 +50,9 @@ def call(method, path, payload=None, accept='application/json'):
 
 
 print('GET  /api/exams/          ->', call('GET', '/api/exams/', accept='text/html')[0])
-print('GET  /api/exams/5/        ->', call('GET', '/api/exams/5/', accept='text/html')[0])
+status, body = call('GET', '/api/exams/')
+first_id = json.loads(body)['results'][0]['id']
+print(f'GET  /api/exams/{first_id}/        ->', call('GET', f'/api/exams/{first_id}/', accept='text/html')[0])
 
 status, body = call('POST', '/api/exams/', {'title': 'Examen navegable', 'description': 'Desde la API navegable.'})
 print('POST /api/exams/          ->', status)
